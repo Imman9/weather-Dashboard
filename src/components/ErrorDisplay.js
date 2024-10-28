@@ -1,9 +1,13 @@
-import React from 'react'
+import React from 'react';
 
-const ErrorDisplay = () => {
-  return (
-    <div>ErrorDisplay</div>
-  )
-}
+const ErrorDisplay = ({ error }) => {
+    if (!error) return null; 
 
-export default ErrorDisplay
+    return (
+        <div className="alert alert-danger" role="alert">
+            {error}
+        </div>
+    );
+};
+
+export default ErrorDisplay;

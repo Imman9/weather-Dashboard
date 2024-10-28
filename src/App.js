@@ -1,7 +1,9 @@
 import React,{useState} from "react";
 import SearchBar from "./components/SearchBar";
 import WeatherDisplay from "./components/WeatherDisplay";
+import ErrorDisplay from "./components/ErrorDisplay";
 function App() {
+
   const [city,setCity] =useState('');
   const [weatherdata,setWeatherData] =useState(null);
   const [error,setError] = useState(null);
@@ -26,7 +28,8 @@ function App() {
       <h1>Weather Dashboard</h1>
       <SearchBar onSearch={fetchWeather}/>
       {error && <p className="error">{error}</p>}
-     
+      {weatherdata && <WeatherDisplay data={weatherdata}/>}
+      <ErrorDisplay error={error}/>
     </div>
   );
 }
