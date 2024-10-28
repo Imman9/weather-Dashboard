@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React,{useState} from "react";
+import SearchBar from "./components/SearchBar";
+import WeatherDisplay from "./components/WeatherDisplay";
 function App() {
+  const [city,setCity] =useState('');
+  const [weatherdata,setWeatherData] =useState(null);
+  const [error,setError] = useState(null);
+
+  const fetchWeather = async (city) => { 
+    try {
+        setError(null); 
+        const response = await fetch(`http://api.weatherapi.com/v1/current.json?key=6f410d313f424e79bf5181920242810&q=${city}&aqi=no`);
+        
+        if (!response.ok) throw new Error("City not found");
+        
+        const data = await response.json();
+        setWeatherData(data); 
+    } catch (error) {
+        setError(error.message);
+        setWeatherData(null); 
+    }
+};
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Weather Dashboard</h1>
+      <SearchBar onSearch={fetchWeather}/>
+      {error && <p className="error">{error}</p>}
+     
     </div>
   );
 }
